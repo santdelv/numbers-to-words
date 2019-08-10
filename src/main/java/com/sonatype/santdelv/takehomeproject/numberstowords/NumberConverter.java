@@ -7,5 +7,5 @@ public interface NumberConverter {
      * @param number The number we want to convert
      * @return The given number expressed in english words.
      */
-    String getNumberAsWords(int number);
+    String getNumberAsWords(String number);
 }

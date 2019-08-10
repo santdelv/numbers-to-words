@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class NumberConverterImpl implements NumberConverter {
 
+    private static final String NEGATIVE_PREFIX = "Negative";
+
     private static final Map<Integer, String> numberBuildingBlocks;
     static {
         Map<Integer, String> intializerMap = new HashMap<Integer, String>();
@@ -35,8 +37,27 @@ public class NumberConverterImpl implements NumberConverter {
         numberBuildingBlocks = Collections.unmodifiableMap(intializerMap);
     }
 
-    public String getNumberAsWords(int number) {
-        String numberString = numberBuildingBlocks.get(number);
-        return numberString.substring(0, 1).toUpperCase() + numberString.substring(1);
+    public String getNumberAsWords(String number) {
+
+        number = number.trim();
+        boolean isNegativeNumber = isNegative(number);
+
+        if(isNegativeNumber) {
+            number = cleanUpNegativePrefix(number);
+        }
+
+        String numberAsWords = numberBuildingBlocks.get(Integer.valueOf(number));
+        if (isNegativeNumber && !"zero".equals(numberAsWords)){
+            numberAsWords = NEGATIVE_PREFIX + " " + numberAsWords;
+        }
+        return numberAsWords.substring(0, 1).toUpperCase() + numberAsWords.substring(1);
+    }
+
+    private boolean isNegative(String number){
+        return number.startsWith("-");
+    }
+
+    private String cleanUpNegativePrefix(String number) {
+        return number.substring(1).trim();
     }
 }
