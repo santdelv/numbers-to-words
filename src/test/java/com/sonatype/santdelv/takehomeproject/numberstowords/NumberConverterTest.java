@@ -1,7 +1,9 @@
 package com.sonatype.santdelv.takehomeproject.numberstowords;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.InvalidNumberException;
 import com.sonatype.santdelv.takehomeproject.numberstowords.impl.NumberConverterImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +12,7 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test basic numbers from 0 to 20.")
-    void convertBasicNumbers() {
+    void convertBasicNumbers() throws InvalidNumberException {
         NumberConverter numberConverter = new NumberConverterImpl();
         assertEquals("Zero", numberConverter.getNumberAsWords("0"));
         assertEquals("One", numberConverter.getNumberAsWords("1"));
@@ -36,8 +38,8 @@ public class NumberConverterTest {
     }
 
     @Test
-    @DisplayName("Test basic numbers from 0 to 20.")
-    void convertBasicNegativeNumbers() {
+    @DisplayName("Test basic negative numbers from 0 to 20.")
+    void convertBasicNegativeNumbers() throws InvalidNumberException {
         NumberConverter numberConverter = new NumberConverterImpl();
         assertEquals("Zero", numberConverter.getNumberAsWords("-0"));
         assertEquals("Negative one", numberConverter.getNumberAsWords("-1"));
@@ -60,5 +62,20 @@ public class NumberConverterTest {
         assertEquals("Negative eighteen", numberConverter.getNumberAsWords("-18"));
         assertEquals("Negative nineteen", numberConverter.getNumberAsWords("-19"));
         assertEquals("Negative twenty", numberConverter.getNumberAsWords("-20"));
+    }
+
+    @Test
+    @DisplayName("Test rejection of invalid number Strings.")
+    void throwErrorWithInvalidNumbers() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("foo"));
+        assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("123Foo"));
+        assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("foo123"));
+        assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("foo123foo"));
+        assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("-foo"));
+        assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("- foo"));
+        assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("--foo"));
+        assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("--123"));
+        assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("- 123foo"));
     }
 }

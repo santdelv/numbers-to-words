@@ -1,5 +1,7 @@
 package com.sonatype.santdelv.takehomeproject.numberstowords;
 
+import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.InvalidNumberException;
+
 public interface NumberConverter {
 
     /**
@@ -7,5 +9,5 @@ public interface NumberConverter {
      * @param number The number we want to convert
      * @return The given number expressed in english words.
      */
-    String getNumberAsWords(String number);
+    String getNumberAsWords(String number) throws InvalidNumberException;
 }

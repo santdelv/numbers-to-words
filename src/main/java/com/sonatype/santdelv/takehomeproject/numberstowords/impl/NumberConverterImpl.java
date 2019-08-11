@@ -1,6 +1,9 @@
 package com.sonatype.santdelv.takehomeproject.numberstowords.impl;
 
 import com.sonatype.santdelv.takehomeproject.numberstowords.NumberConverter;
+import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.InvalidNumberException;
+import com.sonatype.santdelv.takehomeproject.numberstowords.validators.NumberStringValidator;
+import com.sonatype.santdelv.takehomeproject.numberstowords.validators.impl.NumberStringValidatorImpl;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,6 +12,8 @@ import java.util.Map;
 public class NumberConverterImpl implements NumberConverter {
 
     private static final String NEGATIVE_PREFIX = "Negative";
+    // TODO see if we can put some DI mechanism here if we have time
+    private NumberStringValidator numberStringValidator = new NumberStringValidatorImpl();
 
     private static final Map<Integer, String> numberBuildingBlocks;
     static {
@@ -37,9 +42,10 @@ public class NumberConverterImpl implements NumberConverter {
         numberBuildingBlocks = Collections.unmodifiableMap(intializerMap);
     }
 
-    public String getNumberAsWords(String number) {
+    public String getNumberAsWords(String number) throws InvalidNumberException {
 
-        number = number.trim();
+        numberStringValidator.validateNumber(number);
+
         boolean isNegativeNumber = isNegative(number);
 
         if(isNegativeNumber) {
