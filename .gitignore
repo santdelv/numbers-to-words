@@ -26,5 +26,8 @@ hs_err_pid*
 .idea
 *.iml
 
+# Ignore target folder
+/target/**
+
 # Ignore Apple Desktop Services Store file
 .DS_Store

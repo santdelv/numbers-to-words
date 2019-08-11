@@ -78,4 +78,45 @@ public class NumberConverterTest {
         assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("--123"));
         assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("- 123foo"));
     }
+
+    @Test
+    @DisplayName("Test some numbers from 21 to 99")
+    void convertNumbersFrom21To99() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("Twenty one", numberConverter.getNumberAsWords("21"));
+        assertEquals("Twenty two", numberConverter.getNumberAsWords("22"));
+        assertEquals("Twenty three", numberConverter.getNumberAsWords("23"));
+        assertEquals("Twenty four", numberConverter.getNumberAsWords("24"));
+        assertEquals("Twenty five", numberConverter.getNumberAsWords("25"));
+        assertEquals("Twenty six", numberConverter.getNumberAsWords("26"));
+        assertEquals("Twenty seven", numberConverter.getNumberAsWords("27"));
+        assertEquals("Twenty eight", numberConverter.getNumberAsWords("28"));
+        assertEquals("Twenty nine", numberConverter.getNumberAsWords("29"));
+        assertEquals("Thirty one", numberConverter.getNumberAsWords("31"));
+        assertEquals("Thirty two", numberConverter.getNumberAsWords("32"));
+        assertEquals("Forty", numberConverter.getNumberAsWords("40"));
+        assertEquals("Forty three", numberConverter.getNumberAsWords("43"));
+        assertEquals("Fifty four", numberConverter.getNumberAsWords("54"));
+        assertEquals("Sixty five", numberConverter.getNumberAsWords("65"));
+        assertEquals("Seventy six", numberConverter.getNumberAsWords("76"));
+        assertEquals("Eighty seven", numberConverter.getNumberAsWords("87"));
+        assertEquals("Ninety eight", numberConverter.getNumberAsWords("98"));
+        assertEquals("Ninety nine", numberConverter.getNumberAsWords("99"));
+    }
+
+    @Test
+    @DisplayName("Test some negative numbers from 21 to 99")
+    void convertNegativeNumbersFrom21To99() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("Negative twenty one", numberConverter.getNumberAsWords("-21"));
+        assertEquals("Negative thirty two", numberConverter.getNumberAsWords("-32"));
+        assertEquals("Negative forty", numberConverter.getNumberAsWords("-40"));
+        assertEquals("Negative forty three", numberConverter.getNumberAsWords("-43"));
+        assertEquals("Negative fifty four", numberConverter.getNumberAsWords("-54"));
+        assertEquals("Negative sixty five", numberConverter.getNumberAsWords("-65"));
+        assertEquals("Negative seventy six", numberConverter.getNumberAsWords("-76"));
+        assertEquals("Negative eighty seven", numberConverter.getNumberAsWords("-87"));
+        assertEquals("Negative ninety eight", numberConverter.getNumberAsWords("-98"));
+        assertEquals("Negative ninety nine", numberConverter.getNumberAsWords("-99"));
+    }
 }
