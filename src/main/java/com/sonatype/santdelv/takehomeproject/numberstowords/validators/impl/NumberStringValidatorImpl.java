@@ -17,4 +17,20 @@ public class NumberStringValidatorImpl extends NumberStringValidator {
         return m.matches();
     }
 
+    @Override
+    protected boolean isValidNumberRange(String number) {
+
+        if ("-".equals(number.substring(0, 1)))
+            number = number.substring(1);
+
+        /* Because we previously validated that the entered is a valid number then we can be sure that
+        the number is outside of the valid int ranges*/
+        try {
+            Integer.valueOf(number);
+        }catch (NumberFormatException e){
+            return false;
+        }
+        return true;
+    }
+
 }

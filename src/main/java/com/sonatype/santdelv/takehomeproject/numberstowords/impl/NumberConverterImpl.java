@@ -2,8 +2,8 @@ package com.sonatype.santdelv.takehomeproject.numberstowords.impl;
 
 import com.sonatype.santdelv.takehomeproject.numberstowords.NumberConverter;
 import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.InvalidNumberException;
+import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.NumberOutOfRangeException;
 import com.sonatype.santdelv.takehomeproject.numberstowords.validators.NumberStringValidator;
-import com.sonatype.santdelv.takehomeproject.numberstowords.validators.impl.NumberStringValidatorImpl;
 import static com.sonatype.santdelv.takehomeproject.numberstowords.utils.StringOperations.*;
 
 import java.util.*;
@@ -11,8 +11,13 @@ import java.util.*;
 public class NumberConverterImpl implements NumberConverter {
 
     private static final String NEGATIVE_PREFIX = "Negative";
-    // TODO see if we can put some DI mechanism here if we have time
-    private NumberStringValidator numberStringValidator = new NumberStringValidatorImpl();
+
+    private final NumberStringValidator numberStringValidator;
+
+    public NumberConverterImpl (NumberStringValidator numberStringValidator) {
+        this.numberStringValidator = numberStringValidator;
+
+    }
 
     private static final Map<Integer, String> numberBuildingBlocks;
     static {
@@ -50,7 +55,7 @@ public class NumberConverterImpl implements NumberConverter {
 
     private final static String[] MAGNITUDES = {"hundred", "thousand", "million", "billion"};
 
-    public String getNumberAsWords(String number) throws InvalidNumberException {
+    public String getNumberAsWords(String number) throws InvalidNumberException, NumberOutOfRangeException {
 
         numberStringValidator.validateNumber(number);
         boolean isNegativeNumber = isNegative(number);

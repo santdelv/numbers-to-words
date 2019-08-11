@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.InvalidNumberException;
+import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.NumberOutOfRangeException;
 import com.sonatype.santdelv.takehomeproject.numberstowords.impl.NumberConverterImpl;
+import com.sonatype.santdelv.takehomeproject.numberstowords.validators.impl.NumberStringValidatorImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +14,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test basic numbers from 0 to 20.")
-    void convertBasicNumbers() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertBasicNumbers() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("Zero", numberConverter.getNumberAsWords("0"));
         assertEquals("One", numberConverter.getNumberAsWords("1"));
         assertEquals("Two", numberConverter.getNumberAsWords("2"));
@@ -39,8 +41,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test basic negative numbers from 0 to 20.")
-    void convertBasicNegativeNumbers() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertBasicNegativeNumbers() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("Zero", numberConverter.getNumberAsWords("-0"));
         assertEquals("Negative one", numberConverter.getNumberAsWords("-1"));
         assertEquals("Negative two", numberConverter.getNumberAsWords("-2"));
@@ -67,7 +69,7 @@ public class NumberConverterTest {
     @Test
     @DisplayName("Test rejection of invalid number Strings.")
     void throwErrorWithInvalidNumbers() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("foo"));
         assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("123Foo"));
         assertThrows(InvalidNumberException.class, () -> numberConverter.getNumberAsWords("foo123"));
@@ -81,8 +83,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some numbers from 21 to 99")
-    void convertNumbersFrom21To99() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNumbersFrom21To99() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("Twenty one", numberConverter.getNumberAsWords("21"));
         assertEquals("Twenty two", numberConverter.getNumberAsWords("22"));
         assertEquals("Twenty three", numberConverter.getNumberAsWords("23"));
@@ -106,8 +108,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some negative numbers from 21 to 99")
-    void convertNegativeNumbersFrom21To99() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNegativeNumbersFrom21To99() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("Negative twenty one", numberConverter.getNumberAsWords("-21"));
         assertEquals("Negative thirty two", numberConverter.getNumberAsWords("-32"));
         assertEquals("Negative forty", numberConverter.getNumberAsWords("-40"));
@@ -122,8 +124,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some numbers from 100 to 999")
-    void convertNumbersFrom100To999() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNumbersFrom100To999() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("One hundred and one", numberConverter.getNumberAsWords("101"));
         assertEquals("One hundred and five", numberConverter.getNumberAsWords("105"));
         assertEquals("One hundred and fifty five", numberConverter.getNumberAsWords("155"));
@@ -140,8 +142,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some numbers from 100 to 999")
-    void convertNegativeNumbersFrom100To999() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNegativeNumbersFrom100To999() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("Negative one hundred and one", numberConverter.getNumberAsWords("-101"));
         assertEquals("Negative one hundred and five", numberConverter.getNumberAsWords("-105"));
         assertEquals("Negative one hundred and fifty five", numberConverter.getNumberAsWords("-155"));
@@ -158,8 +160,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some numbers from 1000 to 999999")
-    void convertNumbersFrom1000To999999() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNumbersFrom1000To999999() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("One thousand", numberConverter.getNumberAsWords("1000"));
         assertEquals("One hundred thousand", numberConverter.getNumberAsWords("100000"));
         assertEquals("One hundred thousand one", numberConverter.getNumberAsWords("100001"));
@@ -171,8 +173,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some negative numbers from 1000 to 999999")
-    void convertNegativeNumbersFrom1000To999999() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNegativeNumbersFrom1000To999999() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("Negative one thousand", numberConverter.getNumberAsWords("-1000"));
         assertEquals("Negative one hundred thousand", numberConverter.getNumberAsWords("-100000"));
         assertEquals("Negative one hundred thousand one", numberConverter.getNumberAsWords("-100001"));
@@ -184,8 +186,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some numbers from 1000000 to 999999999")
-    void convertNumbersFrom1000000To999999999() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNumbersFrom1000000To999999999() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("One million", numberConverter.getNumberAsWords("1000000"));
         assertEquals("One million one", numberConverter.getNumberAsWords("1000001"));
         assertEquals("One million two hundred fifty thousand", numberConverter.getNumberAsWords("1250000"));
@@ -194,8 +196,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some  negativenumbers from 1000000 to 999999999")
-    void convertNegativeNumbersFrom1000000To999999999() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNegativeNumbersFrom1000000To999999999() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("Negative one million", numberConverter.getNumberAsWords("-1000000"));
         assertEquals("Negative one million one", numberConverter.getNumberAsWords("-1000001"));
         assertEquals("Negative one million two hundred fifty thousand", numberConverter.getNumberAsWords("-1250000"));
@@ -204,8 +206,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some numbers from 1000000000 to 21147483647")
-    void convertNumbersFrom1000000000() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNumbersFrom1000000000() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("One billion", numberConverter.getNumberAsWords("1000000000"));
         assertEquals("One billion one", numberConverter.getNumberAsWords("1000000001"));
         assertEquals("Two billion one hundred forty seven million four hundred eighty three thousand six hundred and forty seven", numberConverter.getNumberAsWords("2147483647"));
@@ -213,8 +215,8 @@ public class NumberConverterTest {
 
     @Test
     @DisplayName("Test some negative numbers from 1000000000 to 21147483647")
-    void convertNegativeNumbersFrom1000000000() throws InvalidNumberException {
-        NumberConverter numberConverter = new NumberConverterImpl();
+    void convertNegativeNumbersFrom1000000000() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("Negative one billion", numberConverter.getNumberAsWords("-1000000000"));
         assertEquals("Negative one billion one", numberConverter.getNumberAsWords("-1000000001"));
         assertEquals("Negative two billion one hundred forty seven million four hundred eighty three thousand six hundred and forty seven", numberConverter.getNumberAsWords("-2147483647"));

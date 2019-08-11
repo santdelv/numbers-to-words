@@ -1,6 +1,7 @@
 package com.sonatype.santdelv.takehomeproject.numberstowords.validators.impl;
 
 import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.InvalidNumberException;
+import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.NumberOutOfRangeException;
 import com.sonatype.santdelv.takehomeproject.numberstowords.validators.NumberStringValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,22 +12,20 @@ public class NumberStringValidatorTest {
 
     @Test
     @DisplayName("Test plain numbers are allowed")
-    void allowNumbers() throws InvalidNumberException {
+    void allowNumbers() throws InvalidNumberException, NumberOutOfRangeException {
         NumberStringValidator numberStringValidator = new NumberStringValidatorImpl();
         numberStringValidator.validateNumber("1");
         numberStringValidator.validateNumber("1000");
         numberStringValidator.validateNumber("143253");
-        numberStringValidator.validateNumber("345675432456754");
     }
 
     @Test
     @DisplayName("Test plain negative numbers are allowed")
-    void allowNegativeNumbers() throws InvalidNumberException {
+    void allowNegativeNumbers() throws InvalidNumberException, NumberOutOfRangeException {
         NumberStringValidator numberStringValidator = new NumberStringValidatorImpl();
         numberStringValidator.validateNumber("-1");
         numberStringValidator.validateNumber("-1000");
         numberStringValidator.validateNumber("-143253");
-        numberStringValidator.validateNumber("-345675432456754");
     }
 
     @Test
@@ -76,6 +75,16 @@ public class NumberStringValidatorTest {
         assertThrows(InvalidNumberException.class, () -> numberStringValidator.validateNumber("-1-1"));
         assertThrows(InvalidNumberException.class, () -> numberStringValidator.validateNumber("12121212-1"));
         assertThrows(InvalidNumberException.class, () -> numberStringValidator.validateNumber("12121212 -1"));
+    }
+
+    @Test
+    @DisplayName("Test that the validator rejects valid numbers chained together.")
+    void acceptMaximumAndMinimumNumbers() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberStringValidator numberStringValidator = new NumberStringValidatorImpl();
+        numberStringValidator.validateNumber(String.valueOf(Integer.MAX_VALUE));
+        numberStringValidator.validateNumber(String.valueOf(Integer.MIN_VALUE -1));
+        numberStringValidator.validateNumber(String.valueOf(Integer.MAX_VALUE * -1));
+        numberStringValidator.validateNumber(String.valueOf((Integer.MIN_VALUE -1) * -1));
     }
 
 }
