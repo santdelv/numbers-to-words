@@ -21,12 +21,12 @@ public class NumberStringValidatorImpl extends NumberStringValidator {
     protected boolean isValidNumberRange(String number) {
 
         if ("-".equals(number.substring(0, 1)))
-            number = number.substring(1);
+            number = number.replaceAll(" ", "");
 
         /* Because we previously validated that the entered is a valid number then we can be sure that
         the number is outside of the valid int ranges*/
         try {
-            Integer.valueOf(number);
+            Integer.parseInt(number);
         }catch (NumberFormatException e){
             return false;
         }

@@ -219,6 +219,6 @@ public class NumberConverterTest {
         NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
         assertEquals("Negative one billion", numberConverter.getNumberAsWords("-1000000000"));
         assertEquals("Negative one billion one", numberConverter.getNumberAsWords("-1000000001"));
-        assertEquals("Negative two billion one hundred forty seven million four hundred eighty three thousand six hundred and forty seven", numberConverter.getNumberAsWords("-2147483647"));
+        assertEquals("Negative two billion one hundred forty seven million four hundred eighty three thousand six hundred and forty eight", numberConverter.getNumberAsWords("-2147483648"));
     }
 }

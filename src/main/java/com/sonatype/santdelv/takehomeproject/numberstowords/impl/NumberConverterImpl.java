@@ -8,17 +8,29 @@ import static com.sonatype.santdelv.takehomeproject.numberstowords.utils.StringO
 
 import java.util.*;
 
+/**
+ * Implementaction of NumberConverter, converts numbers in a numerical format to its representation in english words.
+ */
 public class NumberConverterImpl implements NumberConverter {
 
+    // Prefix used for negative numbers
     private static final String NEGATIVE_PREFIX = "Negative";
+    // Prefix to indicate negative numbers
+    public static final String MINUS_SIGN = "-";
 
+    // Validator used to check if the given numbers as Strings are valid and can be converted.
     private final NumberStringValidator numberStringValidator;
 
+    /**
+     * Constructor that injects the NumberStringValidator used for this implementation.
+     * @param numberStringValidator service to validate if the number Strings are valid.
+     */
     public NumberConverterImpl (NumberStringValidator numberStringValidator) {
         this.numberStringValidator = numberStringValidator;
 
     }
 
+    // Map that defines the basic building blocks of numbers in english
     private static final Map<Integer, String> numberBuildingBlocks;
     static {
         Map<Integer, String> intializerMap = new HashMap<Integer, String>();
@@ -53,25 +65,40 @@ public class NumberConverterImpl implements NumberConverter {
         numberBuildingBlocks = Collections.unmodifiableMap(intializerMap);
     }
 
+    // Array with the magnitudes supported by this converter
     private final static String[] MAGNITUDES = {"hundred", "thousand", "million", "billion"};
 
+    /**
+     * Converts a number given by an it to its equivalent in english words.
+     * @param number The number we want to convert.
+     * @return The given number expressed in english words.
+     */
     public String getNumberAsWords(String number) throws InvalidNumberException, NumberOutOfRangeException {
 
         numberStringValidator.validateNumber(number);
         boolean isNegativeNumber = isNegative(number);
+        boolean isMaxNegative = false;
         String numberAsWords = "";
 
         if(isNegativeNumber) {
+            number = number.replaceAll(" ", "");
+            if (Integer.MIN_VALUE == Integer.parseInt(number)) {
+                isMaxNegative = true;
+            }
             number = cleanUpNegativePrefix(number);
         }
 
-        Integer numberValue = Integer.valueOf(number);
+        boolean isBasicNumber = false;
 
-        if (numberValue <= 20) {
-            numberAsWords = numberBuildingBlocks.get(Integer.valueOf(numberValue));
+        if (isMaxNegative){
+            isBasicNumber = false;
+        }else {
+            isBasicNumber = Integer.parseInt(number) < 21;
         }
 
-        if (numberValue > 20){
+        if (isBasicNumber) {
+            numberAsWords = numberBuildingBlocks.get(Integer.parseInt(number));
+        }else {
             numberAsWords = getNonBasicNumber(number);
         }
 
@@ -81,30 +108,48 @@ public class NumberConverterImpl implements NumberConverter {
         return getCapitalizedString(numberAsWords);
     }
 
+    /**
+     * Obtains a non basic number (non basic numbers are bigger than twenty for our case).
+     * Segments the String in sections of three, process them and concatenates.
+     * @param number A number bigger than 20.
+     * @return The non basic number as english word
+     */
     private String getNonBasicNumber(String number) {
         List<String> segments = getCharacterSegmentsReversed(number, 3);
         StringBuilder numberSegmentsWords = new StringBuilder();
 
         for (int i = segments.size(); i > 0 ; i--) {
             // hundreds is a special case because of the and
-            int currentNumber = Integer.valueOf(segments.get(i -1));
+            int currentNumber = Integer.parseInt(segments.get(i -1));
             if(i == 1 && currentNumber > 0) {
                 numberSegmentsWords.append(getHundredsNumber(currentNumber, " and ", ""));
                 continue;
             }
             if(currentNumber > 0){
-                numberSegmentsWords.append(getHundredsNumber(Integer.valueOf(segments.get(i - 1)), " ", MAGNITUDES[i-1]));
+                numberSegmentsWords.append(getHundredsNumber(Integer.parseInt(segments.get(i - 1)), " ", MAGNITUDES[i-1]));
                 numberSegmentsWords.append(" ");
             }
         }
-        String result = numberSegmentsWords.toString().trim();
-        return result;
+        String nonBasicNumberString = numberSegmentsWords.toString().trim();
+        return nonBasicNumberString;
     }
 
+    /**
+     * Checks if a number is negative or not determined byt its use of a minus sign.
+     * @param number String representation of a number
+     * @return true if the number string starts with the minus sign
+     */
     private boolean isNegative(String number){
-        return number.startsWith("-");
+        return number.startsWith(MINUS_SIGN);
     }
 
+    /**
+     * Converts any three digit number to english words, adds its magnitude if needed.
+     * @param numberValue The value of the number.
+     * @param separator The separator, could be and or a space, and its only used in the last hundreds value.
+     * @param magnitude The magnitude of the number.
+     * @return The representation of the number in english words.
+     */
     private String getHundredsNumber(int numberValue, String separator, String magnitude) {
         String numberAsWords;
         if (numberValue <= 20) {
@@ -125,6 +170,11 @@ public class NumberConverterImpl implements NumberConverter {
         return numberAsWords.trim();
     }
 
+    /**
+     * Converts a number lower than one hundred to engliush words.
+     * @param numberValue A number kess than 99.
+     * @return The number representation in english wortds.
+     */
     private String getNumberLowerThan100(int numberValue){
 
         String tensPartOfNumber = "";
@@ -143,6 +193,11 @@ public class NumberConverterImpl implements NumberConverter {
         return (tensPartOfNumber + " " + basicNumberPart).trim();
     }
 
+    /**
+     * Cleans up the negative prefix from a number String.
+     * @param number number that starts with the minus sign.
+     * @return The number without the minus sign or blank spaces.
+     */
     private String cleanUpNegativePrefix(String number) {
         return number.substring(1).trim();
     }

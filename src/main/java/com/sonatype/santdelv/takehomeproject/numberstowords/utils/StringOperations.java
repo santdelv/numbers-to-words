@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Utility class to group commons string operations used in the project.
+ */
 public class StringOperations {
 
     /**
-     * Capitalizes the first letter of a given String
-     * @param sentence
-     * @return The capitalized sentence, null if null, empty String if Empty String
+     * Capitalizes the first letter of a given String.
+     * @param sentence The sentence we want to capitalize.
+     * @return The capitalized sentence, null if null, empty String if Empty String.
      */
     public static String getCapitalizedString(String sentence) {
         if (sentence == null) {
@@ -22,9 +25,9 @@ public class StringOperations {
     }
 
     /**
-     * Splits a String in segments of the given number, reverses the result
-     * @param sentence Sentence we want to split
-     * @return
+     * Splits a String in segments of the given number, reverses the result.
+     * @param sentence Sentence we want to split.
+     * @return The charter segments in a reverse order.
      */
     public static List<String> getCharacterSegmentsReversed(String sentence, int segmentNumber) {
 
@@ -34,10 +37,10 @@ public class StringOperations {
     }
 
     /**
-     * Splits a String into segments of the given number, the first segment is less than the segmentNumber if the String
+     * Splits a String into segments of the given number, the first segment is less than the segmentNumber if the String.
      * given is not a multiple of segmentNumber.
-     * @param sentence The sentence we want to split
-     * @return A list of Strings segmented in three character sections
+     * @param sentence The sentence we want to split.
+     * @return A list of Strings segmented in three character sections.
      */
     public static List<String> getCharacterSegments(String sentence, int segmentNumber) {
 

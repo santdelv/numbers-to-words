@@ -82,9 +82,9 @@ public class NumberStringValidatorTest {
     void acceptMaximumAndMinimumNumbers() throws InvalidNumberException, NumberOutOfRangeException {
         NumberStringValidator numberStringValidator = new NumberStringValidatorImpl();
         numberStringValidator.validateNumber(String.valueOf(Integer.MAX_VALUE));
-        numberStringValidator.validateNumber(String.valueOf(Integer.MIN_VALUE -1));
+        numberStringValidator.validateNumber(String.valueOf(Integer.MIN_VALUE ));
         numberStringValidator.validateNumber(String.valueOf(Integer.MAX_VALUE * -1));
-        numberStringValidator.validateNumber(String.valueOf((Integer.MIN_VALUE -1) * -1));
+        numberStringValidator.validateNumber(String.valueOf((Integer.MIN_VALUE) * -1));
     }
 
 }
