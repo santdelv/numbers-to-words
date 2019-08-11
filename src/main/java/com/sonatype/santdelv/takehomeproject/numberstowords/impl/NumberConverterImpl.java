@@ -4,6 +4,7 @@ import com.sonatype.santdelv.takehomeproject.numberstowords.NumberConverter;
 import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.InvalidNumberException;
 import com.sonatype.santdelv.takehomeproject.numberstowords.validators.NumberStringValidator;
 import com.sonatype.santdelv.takehomeproject.numberstowords.validators.impl.NumberStringValidatorImpl;
+import static com.sonatype.santdelv.takehomeproject.numberstowords.utils.StringOperations.*;
 
 import java.util.*;
 
@@ -55,7 +56,6 @@ public class NumberConverterImpl implements NumberConverter {
         boolean isNegativeNumber = isNegative(number);
         String numberAsWords = "";
 
-        //TODO a lot of conditionals, will need a refactor shortly
         if(isNegativeNumber) {
             number = cleanUpNegativePrefix(number);
         }
@@ -67,60 +67,33 @@ public class NumberConverterImpl implements NumberConverter {
         }
 
         if (numberValue > 20){
-            List<String> segments = getThreeCharacterSegments(number);
-            StringBuilder numberSegmentsWords = new StringBuilder();
-
-            for (int i = segments.size(); i > 0 ; i--) {
-                // hundreds is a special case because of the and
-                int currentNumber = Integer.valueOf(segments.get(i -1));
-                if(i == 1 && currentNumber > 0) {
-                    numberSegmentsWords.append(getHundredsNumber(currentNumber, " and ", ""));
-                    continue;
-                }
-                if(currentNumber > 0){
-                    numberSegmentsWords.append(getHundredsNumber(Integer.valueOf(segments.get(i - 1)), " ", MAGNITUDES[i-1]));
-                    numberSegmentsWords.append(" ");
-                }
-            }
-
-            numberAsWords = numberSegmentsWords.toString().trim();
+            numberAsWords = getNonBasicNumber(number);
         }
 
         if (isNegativeNumber && !"zero".equals(numberAsWords)){
             numberAsWords = NEGATIVE_PREFIX + " " + numberAsWords;
         }
-        return numberAsWords.substring(0, 1).toUpperCase() + numberAsWords.substring(1);
+        return getCapitalizedString(numberAsWords);
     }
 
-    private List<String> getThreeCharacterSegments(String number) {
+    private String getNonBasicNumber(String number) {
+        List<String> segments = getCharacterSegmentsReversed(number, 3);
+        StringBuilder numberSegmentsWords = new StringBuilder();
 
-        List<String> segments = new ArrayList<>();
-        String segment;
-
-        if (number.length() <= 3) {
-            segments.add(number);
-            return segments;
+        for (int i = segments.size(); i > 0 ; i--) {
+            // hundreds is a special case because of the and
+            int currentNumber = Integer.valueOf(segments.get(i -1));
+            if(i == 1 && currentNumber > 0) {
+                numberSegmentsWords.append(getHundredsNumber(currentNumber, " and ", ""));
+                continue;
+            }
+            if(currentNumber > 0){
+                numberSegmentsWords.append(getHundredsNumber(Integer.valueOf(segments.get(i - 1)), " ", MAGNITUDES[i-1]));
+                numberSegmentsWords.append(" ");
+            }
         }
-
-        int segmentSize = number.length() % 3;
-        if(segmentSize == 0){
-            segmentSize = 3;
-        }
-
-        // First segment could be especial so we process it outside of the loop
-        segment = number.substring(0, segmentSize);
-        segments.add(segment);
-        number = number.substring(segmentSize);
-        segmentSize = 3;
-
-        while (number.length() != 0) {
-            segment = number.substring(0, segmentSize);
-            segments.add(segment);
-            number = number.substring(segmentSize);
-        }
-
-        Collections.reverse(segments);
-        return segments;
+        String result = numberSegmentsWords.toString().trim();
+        return result;
     }
 
     private boolean isNegative(String number){
@@ -129,35 +102,40 @@ public class NumberConverterImpl implements NumberConverter {
 
     private String getHundredsNumber(int numberValue, String separator, String magnitude) {
         String numberAsWords;
-        String tensPartOfNumber = "";
         if (numberValue <= 20) {
             numberAsWords = numberBuildingBlocks.get(Integer.valueOf(numberValue)) + " " + magnitude;
             return numberAsWords.trim();
         }
 
-        String basicNumberPart = "";
-        int remainder;
-        int biggestTenMultiple = (int)Math.floor((numberValue%100)/10) * 10;
-        if (biggestTenMultiple > 0 && biggestTenMultiple >= 20) {
-            tensPartOfNumber = numberBuildingBlocks.get(biggestTenMultiple) + " ";
-            remainder = numberValue%100 - biggestTenMultiple;
-        }else {
-            remainder = numberValue%100;
-        }
-        if(remainder > 0) {
-            basicNumberPart = numberBuildingBlocks.get(remainder);
-        }
-        String notHundredsPartOfNumber = (tensPartOfNumber + basicNumberPart).trim();
+        String hundredsPartOfNumber = "";
+        int biggestHundredNumber = (int)Math.floor(numberValue/100);
+        String notHundredsPartOfNumber = getNumberLowerThan100(numberValue - (biggestHundredNumber * 100));
         if (notHundredsPartOfNumber.isEmpty()) {
             separator = "";
         }
-        String hundredsPartOfNumber = "";
-        int biggestHundredNumber = (int)Math.floor(numberValue/100);
         if (biggestHundredNumber > 0) {
             hundredsPartOfNumber = numberBuildingBlocks.get(biggestHundredNumber) + " " + "hundred" + separator;
         }
         numberAsWords =  (hundredsPartOfNumber + notHundredsPartOfNumber + " ").trim() + " " + magnitude;
         return numberAsWords.trim();
+    }
+
+    private String getNumberLowerThan100(int numberValue){
+
+        String tensPartOfNumber = "";
+        String basicNumberPart = "";
+        int remainder;
+        int biggestTenMultiple = (int)Math.floor(numberValue/10) * 10;
+        if (biggestTenMultiple > 0 && biggestTenMultiple >= 20) {
+            tensPartOfNumber = numberBuildingBlocks.get(biggestTenMultiple);
+            remainder = numberValue - biggestTenMultiple;
+        } else {
+            remainder = numberValue;
+        }
+        if(remainder > 0) {
+            basicNumberPart = numberBuildingBlocks.get(remainder);
+        }
+        return (tensPartOfNumber + " " + basicNumberPart).trim();
     }
 
     private String cleanUpNegativePrefix(String number) {
