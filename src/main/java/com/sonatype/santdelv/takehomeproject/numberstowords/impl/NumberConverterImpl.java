@@ -9,7 +9,7 @@ import static com.sonatype.santdelv.takehomeproject.numberstowords.utils.StringO
 import java.util.*;
 
 /**
- * Implementaction of NumberConverter, converts numbers in a numerical format to its representation in english words.
+ * Implementation of NumberConverter, converts numbers in a numerical format to its representation in english words.
  */
 public class NumberConverterImpl implements NumberConverter {
 
@@ -17,6 +17,10 @@ public class NumberConverterImpl implements NumberConverter {
     private static final String NEGATIVE_PREFIX = "Negative";
     // Prefix to indicate negative numbers
     public static final String MINUS_SIGN = "-";
+    public static final String HUNDRED = "hundred";
+    public static final String AND_CONNECTOR = " and ";
+    public static final int A_HUNDRED_INT = 100;
+    public static final int TWENTY_INT = 20;
 
     // Validator used to check if the given numbers as Strings are valid and can be converted.
     private final NumberStringValidator numberStringValidator;
@@ -32,6 +36,7 @@ public class NumberConverterImpl implements NumberConverter {
 
     // Map that defines the basic building blocks of numbers in english
     private static final Map<Integer, String> numberBuildingBlocks;
+
     static {
         Map<Integer, String> intializerMap = new HashMap<Integer, String>();
         intializerMap.put(0, "zero");
@@ -122,7 +127,7 @@ public class NumberConverterImpl implements NumberConverter {
             // hundreds is a special case because of the and
             int currentNumber = Integer.parseInt(segments.get(i -1));
             if(i == 1 && currentNumber > 0) {
-                numberSegmentsWords.append(getHundredsNumber(currentNumber, " and ", ""));
+                numberSegmentsWords.append(getHundredsNumber(currentNumber, AND_CONNECTOR, ""));
                 continue;
             }
             if(currentNumber > 0){
@@ -158,13 +163,13 @@ public class NumberConverterImpl implements NumberConverter {
         }
 
         String hundredsPartOfNumber = "";
-        int biggestHundredNumber = (int)Math.floor(numberValue/100);
-        String notHundredsPartOfNumber = getNumberLowerThan100(numberValue - (biggestHundredNumber * 100));
+        int biggestHundredNumber = (int)Math.floor(numberValue/ A_HUNDRED_INT);
+        String notHundredsPartOfNumber = getNumberLowerThan100(numberValue - (biggestHundredNumber * A_HUNDRED_INT));
         if (notHundredsPartOfNumber.isEmpty()) {
             separator = "";
         }
         if (biggestHundredNumber > 0) {
-            hundredsPartOfNumber = numberBuildingBlocks.get(biggestHundredNumber) + " " + "hundred" + separator;
+            hundredsPartOfNumber = numberBuildingBlocks.get(biggestHundredNumber) + " " + HUNDRED + separator;
         }
         numberAsWords =  (hundredsPartOfNumber + notHundredsPartOfNumber + " ").trim() + " " + magnitude;
         return numberAsWords.trim();
@@ -181,7 +186,7 @@ public class NumberConverterImpl implements NumberConverter {
         String basicNumberPart = "";
         int remainder;
         int biggestTenMultiple = (int)Math.floor(numberValue/10) * 10;
-        if (biggestTenMultiple > 0 && biggestTenMultiple >= 20) {
+        if (biggestTenMultiple > 0 && biggestTenMultiple >= TWENTY_INT) {
             tensPartOfNumber = numberBuildingBlocks.get(biggestTenMultiple);
             remainder = numberValue - biggestTenMultiple;
         } else {

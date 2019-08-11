@@ -1,14 +1,14 @@
 
-#### Number to english converter
+### Number to english converter
 
 This is a simple service and rest endpoint to convert numbers to its english word equivalent.
 
-###### Prerequisites
+##### Prerequisites
 
 `Maven,
 Java 8`
 
-###### How to run this
+##### How to run this
 
 After downloading the source code execute this from the root
 
@@ -37,7 +37,7 @@ numberstring
 or
 - numberstring
 
-###### Running the tests
+##### Running the tests
 
 To run the tests execute
 

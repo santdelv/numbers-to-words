@@ -87,4 +87,12 @@ public class NumberStringValidatorTest {
         numberStringValidator.validateNumber(String.valueOf((Integer.MIN_VALUE) * -1));
     }
 
+    @Test
+    @DisplayName("Test that the validator rejects numbers outside of the range.")
+    void rejectNumbersOutsideOfRange() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberStringValidator numberStringValidator = new NumberStringValidatorImpl();
+        assertThrows(NumberOutOfRangeException.class, () -> numberStringValidator.validateNumber("2147483648"));
+        assertThrows(NumberOutOfRangeException.class, () -> numberStringValidator.validateNumber("-2147483649"));
+    }
+
 }
