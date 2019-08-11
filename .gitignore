@@ -29,5 +29,8 @@ hs_err_pid*
 # Ignore target folder
 /target/**
 
+# Ignore dependency reduced pom 
+dependency-reduced-pom.xml
+
 # Ignore Apple Desktop Services Store file
 .DS_Store
