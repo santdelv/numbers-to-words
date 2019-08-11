@@ -71,7 +71,19 @@ public class NumberConverterImpl implements NumberConverter {
         }
 
         if (numberValue < 1000 && numberValue > 99) {
-            numberAsWords = getNumberLowerThanOneThousand(numberValue);
+            numberAsWords = getNumberLowerThanOneThousand(numberValue, " and ");
+        }
+
+        if (numberValue < 1000000 && numberValue > 999) {
+            numberAsWords = getNumberLowerThanOneMillion(numberValue);
+        }
+
+        if (numberValue < 1000000000 && numberValue > 999999) {
+            numberAsWords = getNumberLowerThanOneBillion(numberValue);
+        }
+
+        if (numberValue >= 1000000000) {
+            numberAsWords = getNumberBiggerThanOneBillion(numberValue);
         }
 
         if (isNegativeNumber && !"zero".equals(numberAsWords)){
@@ -114,17 +126,67 @@ public class NumberConverterImpl implements NumberConverter {
      * @param numberValue number we want to convert.
      * @return The number representation in english words
      */
-    private String getNumberLowerThanOneThousand(int numberValue) {
+    private String getNumberLowerThanOneThousand(int numberValue, String separator) {
         //TODO code is too similar to getNumberLowerThanOneHundred, a refactor is needed
         String numberAsWords;
         String remainderNumber = "";
+        String hundredsPartOfNumber = "";
         int biggestHundredNumber = (int)Math.floor(numberValue/100);
-        String hundredsPartOfNumber = numberBuildingBlocks.get(biggestHundredNumber) + " " + "hundred";
+        if (biggestHundredNumber > 0) {
+            hundredsPartOfNumber = numberBuildingBlocks.get(biggestHundredNumber) + " " + "hundred";
+        }else {
+            separator = " ";
+        }
         int remainder = numberValue - (biggestHundredNumber * 100);
         if(remainder > 0) {
-            remainderNumber = " and " + getNumberLowerThanOneHundred(remainder);
+            remainderNumber = separator + getNumberLowerThanOneHundred(remainder);
         }
         numberAsWords =  hundredsPartOfNumber + remainderNumber;
+        return numberAsWords.trim();
+    }
+
+    private String getNumberLowerThanOneMillion(int numberValue) {
+        String numberAsWords;
+        String remainderNumber = "";
+        String thousandsPartOfNumber = "";
+        int biggestThousandNumber = (int)Math.floor(numberValue/1000);
+        if(biggestThousandNumber > 0){
+            thousandsPartOfNumber = getNumberLowerThanOneThousand(biggestThousandNumber, " ") + " " + "thousand";
+        }
+        int remainder = numberValue - (biggestThousandNumber * 1000);
+        if(remainder > 0) {
+            remainderNumber = " " + getNumberLowerThanOneThousand(remainder, " and ");
+        }
+        numberAsWords =  thousandsPartOfNumber + remainderNumber;
+        return numberAsWords.trim();
+    }
+
+    private String getNumberLowerThanOneBillion(int numberValue) {
+        String numberAsWords;
+        String remainderNumber = "";
+        String millionsPartOfNumber = "";
+        int biggestMillionNumber = (int)Math.floor(numberValue/1000000);
+        if (biggestMillionNumber > 0){
+            millionsPartOfNumber = getNumberLowerThanOneThousand(biggestMillionNumber, " ") + " " + "million";
+        }
+        int remainder = numberValue - (biggestMillionNumber * 1000000);
+        if(remainder > 0) {
+            remainderNumber = getNumberLowerThanOneMillion(remainder);
+        }
+        numberAsWords =  millionsPartOfNumber + " " + remainderNumber;
+        return numberAsWords.trim();
+    }
+
+    private String getNumberBiggerThanOneBillion(int numberValue) {
+        String numberAsWords;
+        String remainderNumber = "";
+        int biggestBillionNumber = (int)Math.floor(numberValue/1000000000);
+        String billionPartOfNumber = numberBuildingBlocks.get(biggestBillionNumber) + " " + "billion";
+        int remainder = numberValue - (biggestBillionNumber * 1000000000);
+        if(remainder > 0) {
+            remainderNumber = " " + getNumberLowerThanOneBillion(remainder);
+        }
+        numberAsWords =  billionPartOfNumber + remainderNumber;
         return numberAsWords.trim();
     }
 

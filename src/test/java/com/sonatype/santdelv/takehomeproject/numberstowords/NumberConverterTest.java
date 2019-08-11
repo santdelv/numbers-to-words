@@ -155,4 +155,68 @@ public class NumberConverterTest {
         assertEquals("Negative nine hundred and thirty", numberConverter.getNumberAsWords("-930"));
         assertEquals("Negative nine hundred and ninety nine", numberConverter.getNumberAsWords("-999"));
     }
+
+    @Test
+    @DisplayName("Test some numbers from 1000 to 999999")
+    void convertNumbersFrom1000To999999() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("One thousand", numberConverter.getNumberAsWords("1000"));
+        assertEquals("One hundred thousand", numberConverter.getNumberAsWords("100000"));
+        assertEquals("One hundred thousand one", numberConverter.getNumberAsWords("100001"));
+        assertEquals("Eight hundred fifty three thousand three hundred", numberConverter.getNumberAsWords("853300"));
+        assertEquals("Nine hundred thirty thousand", numberConverter.getNumberAsWords("930000"));
+        assertEquals("Nine hundred thousand", numberConverter.getNumberAsWords("900000"));
+        assertEquals("Nine hundred ninety nine thousand nine hundred and ninety nine", numberConverter.getNumberAsWords("999999"));
+    }
+
+    @Test
+    @DisplayName("Test some negative numbers from 1000 to 999999")
+    void convertNegativeNumbersFrom1000To999999() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("Negative one thousand", numberConverter.getNumberAsWords("-1000"));
+        assertEquals("Negative one hundred thousand", numberConverter.getNumberAsWords("-100000"));
+        assertEquals("Negative one hundred thousand one", numberConverter.getNumberAsWords("-100001"));
+        assertEquals("Negative eight hundred fifty three thousand three hundred", numberConverter.getNumberAsWords("-853300"));
+        assertEquals("Negative nine hundred thirty thousand", numberConverter.getNumberAsWords("-930000"));
+        assertEquals("Negative nine hundred thousand", numberConverter.getNumberAsWords("-900000"));
+        assertEquals("Negative nine hundred ninety nine thousand nine hundred and ninety nine", numberConverter.getNumberAsWords("-999999"));
+    }
+
+    @Test
+    @DisplayName("Test some numbers from 1000000 to 999999999")
+    void convertNumbersFrom1000000To999999999() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("One million", numberConverter.getNumberAsWords("1000000"));
+        assertEquals("One million one", numberConverter.getNumberAsWords("1000001"));
+        assertEquals("One million two hundred fifty thousand", numberConverter.getNumberAsWords("1250000"));
+        assertEquals("Nine hundred ninety nine million nine hundred ninety nine thousand nine hundred and ninety nine", numberConverter.getNumberAsWords("999999999"));
+    }
+
+    @Test
+    @DisplayName("Test some  negativenumbers from 1000000 to 999999999")
+    void convertNegativeNumbersFrom1000000To999999999() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("Negative one million", numberConverter.getNumberAsWords("-1000000"));
+        assertEquals("Negative one million one", numberConverter.getNumberAsWords("-1000001"));
+        assertEquals("Negative one million two hundred fifty thousand", numberConverter.getNumberAsWords("-1250000"));
+        assertEquals("Negative nine hundred ninety nine million nine hundred ninety nine thousand nine hundred and ninety nine", numberConverter.getNumberAsWords("-999999999"));
+    }
+
+    @Test
+    @DisplayName("Test some numbers from 1000000000 to 21147483647")
+    void convertNumbersFrom1000000000() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("One billion", numberConverter.getNumberAsWords("1000000000"));
+        assertEquals("One billion one", numberConverter.getNumberAsWords("1000000001"));
+        assertEquals("Two billion one hundred forty seven million four hundred eighty three thousand six hundred and forty seven", numberConverter.getNumberAsWords("2147483647"));
+    }
+
+    @Test
+    @DisplayName("Test some negative numbers from 1000000000 to 21147483647")
+    void convertNegativeNumbersFrom1000000000() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("Negative one billion", numberConverter.getNumberAsWords("-1000000000"));
+        assertEquals("Negative one billion one", numberConverter.getNumberAsWords("-1000000001"));
+        assertEquals("Negative two billion one hundred forty seven million four hundred eighty three thousand six hundred and forty seven", numberConverter.getNumberAsWords("-2147483647"));
+    }
 }
