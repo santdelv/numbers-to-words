@@ -65,12 +65,13 @@ public class NumberConverterImpl implements NumberConverter {
         }
 
         Integer numberValue = Integer.valueOf(number);
-        if (numberValue <= 20) {
-            numberAsWords = numberBuildingBlocks.get(Integer.valueOf(number));
+
+        if (numberValue < 100) {
+            numberAsWords = getNumberLowerThanOneHundred(numberValue);
         }
 
-        if (numberValue < 100 && numberValue > 20) {
-            numberAsWords = getNumberLowerThanOneHundred(numberValue);
+        if (numberValue < 1000 && numberValue > 99) {
+            numberAsWords = getNumberLowerThanOneThousand(numberValue);
         }
 
         if (isNegativeNumber && !"zero".equals(numberAsWords)){
@@ -84,13 +85,17 @@ public class NumberConverterImpl implements NumberConverter {
     }
 
     /**
-     * Given a number lower than hundred and bigger than twenty converts it to words in english.
+     * Given a number lower than hundred.
      * First we get its lower multiple of 10, get the word that represents it and concatenate with the
      * remainder of the given number minus the nearest decimal divisor.
      * @param numberValue number we want to convert.
      * @return The number representation in english words
      */
     private String getNumberLowerThanOneHundred(int numberValue) {
+        if (numberValue <= 20) {
+            return numberBuildingBlocks.get(Integer.valueOf(numberValue));
+        }
+
         String numberAsWords;
         String basicNumberPart = "";
         int biggestTenMultiple = (int)Math.floor(numberValue/10) * 10;
@@ -100,6 +105,26 @@ public class NumberConverterImpl implements NumberConverter {
             basicNumberPart = numberBuildingBlocks.get(numberValue - biggestTenMultiple);
         }
         numberAsWords =  tensPartOfNumber + " " + basicNumberPart;
+        return numberAsWords.trim();
+    }
+
+    /**
+     * Given a number lower than 1000 and bigger than 99 it to words in english.
+     * First we get its hundreds part and then concatenate it with the remainder as words
+     * @param numberValue number we want to convert.
+     * @return The number representation in english words
+     */
+    private String getNumberLowerThanOneThousand(int numberValue) {
+        //TODO code is too similar to getNumberLowerThanOneHundred, a refactor is needed
+        String numberAsWords;
+        String remainderNumber = "";
+        int biggestHundredNumber = (int)Math.floor(numberValue/100);
+        String hundredsPartOfNumber = numberBuildingBlocks.get(biggestHundredNumber) + " " + "hundred";
+        int remainder = numberValue - (biggestHundredNumber * 100);
+        if(remainder > 0) {
+            remainderNumber = " and " + getNumberLowerThanOneHundred(remainder);
+        }
+        numberAsWords =  hundredsPartOfNumber + remainderNumber;
         return numberAsWords.trim();
     }
 

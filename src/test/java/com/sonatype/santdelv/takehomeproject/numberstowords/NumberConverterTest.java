@@ -119,4 +119,40 @@ public class NumberConverterTest {
         assertEquals("Negative ninety eight", numberConverter.getNumberAsWords("-98"));
         assertEquals("Negative ninety nine", numberConverter.getNumberAsWords("-99"));
     }
+
+    @Test
+    @DisplayName("Test some numbers from 100 to 999")
+    void convertNumbersFrom100To999() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("One hundred and one", numberConverter.getNumberAsWords("101"));
+        assertEquals("One hundred and five", numberConverter.getNumberAsWords("105"));
+        assertEquals("One hundred and fifty five", numberConverter.getNumberAsWords("155"));
+        assertEquals("Two hundred and thirty four", numberConverter.getNumberAsWords("234"));
+        assertEquals("Three hundred and seventy six", numberConverter.getNumberAsWords("376"));
+        assertEquals("Four hundred and nineteen", numberConverter.getNumberAsWords("419"));
+        assertEquals("Five hundred and eleven", numberConverter.getNumberAsWords("511"));
+        assertEquals("Six hundred and forty seven", numberConverter.getNumberAsWords("647"));
+        assertEquals("Seven hundred and seventy seven", numberConverter.getNumberAsWords("777"));
+        assertEquals("Eight hundred and fifty three", numberConverter.getNumberAsWords("853"));
+        assertEquals("Nine hundred and thirty", numberConverter.getNumberAsWords("930"));
+        assertEquals("Nine hundred and ninety nine", numberConverter.getNumberAsWords("999"));
+    }
+
+    @Test
+    @DisplayName("Test some numbers from 100 to 999")
+    void convertNegativeNumbersFrom100To999() throws InvalidNumberException {
+        NumberConverter numberConverter = new NumberConverterImpl();
+        assertEquals("Negative one hundred and one", numberConverter.getNumberAsWords("-101"));
+        assertEquals("Negative one hundred and five", numberConverter.getNumberAsWords("-105"));
+        assertEquals("Negative one hundred and fifty five", numberConverter.getNumberAsWords("-155"));
+        assertEquals("Negative two hundred and thirty four", numberConverter.getNumberAsWords("-234"));
+        assertEquals("Negative three hundred and seventy six", numberConverter.getNumberAsWords("-376"));
+        assertEquals("Negative four hundred and nineteen", numberConverter.getNumberAsWords("-419"));
+        assertEquals("Negative five hundred and eleven", numberConverter.getNumberAsWords("-511"));
+        assertEquals("Negative six hundred and forty seven", numberConverter.getNumberAsWords("-647"));
+        assertEquals("Negative seven hundred and seventy seven", numberConverter.getNumberAsWords("-777"));
+        assertEquals("Negative eight hundred and fifty three", numberConverter.getNumberAsWords("-853"));
+        assertEquals("Negative nine hundred and thirty", numberConverter.getNumberAsWords("-930"));
+        assertEquals("Negative nine hundred and ninety nine", numberConverter.getNumberAsWords("-999"));
+    }
 }
