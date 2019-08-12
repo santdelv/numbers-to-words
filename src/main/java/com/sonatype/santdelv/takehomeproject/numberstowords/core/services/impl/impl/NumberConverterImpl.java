@@ -160,13 +160,13 @@ public class NumberConverterImpl implements NumberConverter {
         if (biggestHundredNumber > 0) {
             hundredsPartOfNumber = numberBuildingBlocks.get(biggestHundredNumber) + " " + HUNDRED + separator;
         }
-        numberAsWords =  (hundredsPartOfNumber + notHundredsPartOfNumber + " ").trim() + " " + magnitude;
+        numberAsWords = (hundredsPartOfNumber + notHundredsPartOfNumber + " ").trim() + " " + magnitude;
         return numberAsWords.trim();
     }
 
     /**
      * Converts a number lower than one hundred to engliush words.
-     * @param numberValue A number kess than 99.
+     * @param numberValue A number less than 99.
      * @return The number representation in english wortds.
      */
     private String getNumberLowerThan100(int numberValue){

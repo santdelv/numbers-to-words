@@ -37,7 +37,6 @@ public class StringOperationsTest {
         assertEquals("  ", StringOperations.getCapitalizedString("  "));
     }
 
-
     @Test
     @DisplayName("Test Separating in Three character segments if less than 3")
     void getThreeCharacterSegmentsLessThanThreeCharacters() {
@@ -79,5 +78,18 @@ public class StringOperationsTest {
         assertEquals(null, segments);
     }
 
-    //TODO Missing cases for reversed String
+    @Test
+    @DisplayName("Test Separating in Three character segments if more than 3, reversed")
+    void getThreeCharacterSegmentsMoreThanThreeCharactersReversed() {
+        List<String> segments = StringOperations.getCharacterSegmentsReversed("hello", 3);
+        assertEquals(2, segments.size());
+        assertEquals("llo", segments.get(0));
+        assertEquals("he", segments.get(1));
+        segments = StringOperations.getCharacterSegmentsReversed("hello world", 3);
+        assertEquals(4, segments.size());
+        assertEquals("rld", segments.get(0));
+        assertEquals(" wo", segments.get(1));
+        assertEquals("llo", segments.get(2));
+        assertEquals("he", segments.get(3));
+    }
 }
