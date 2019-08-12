@@ -82,26 +82,15 @@ public class NumberConverterImpl implements NumberConverter {
 
         numberStringValidator.validateNumber(number);
         boolean isNegativeNumber = isNegative(number);
-        boolean isMaxNegative = false;
-        String numberAsWords = "";
+        String numberAsWords;
 
         if(isNegativeNumber) {
-            number = number.replaceAll(" ", "");
-            if (Integer.MIN_VALUE == Integer.parseInt(number)) {
-                isMaxNegative = true;
-            }
             number = cleanUpNegativePrefix(number);
         }
 
-        boolean isBasicNumber = false;
+        double numberValue = Double.parseDouble(number);
 
-        if (isMaxNegative){
-            isBasicNumber = false;
-        }else {
-            isBasicNumber = Integer.parseInt(number) < 21;
-        }
-
-        if (isBasicNumber) {
+        if (numberValue < 20) {
             numberAsWords = numberBuildingBlocks.get(Integer.parseInt(number));
         }else {
             numberAsWords = getNonBasicNumber(number);
