@@ -3,12 +3,12 @@
 
 This is a simple service and rest endpoint to convert numbers to its english word equivalent.
 
-##### Prerequisites
+#### Prerequisites
 
 `Maven,
 Java 8`
 
-##### How to run this
+#### How to run this
 
 After downloading the source code execute this from the root
 
@@ -16,8 +16,9 @@ download the repo from https://github.com/santdelv/numbers-to-words.git
 
 then
 
-`cd to where you downloaded the repo
-mvn clean install`
+`cd to where you downloaded the repo`
+
+`mvn clean install`
 
 then execute the following command in a terminal from the root folder of this repo:
 
@@ -32,12 +33,20 @@ where {someNumber} is the number you want to convert.
 
 The endpoint supports numbers with the following structure:
 
-numberstring
--numberstring
-or
-- numberstring
+"numberstring"
 
-##### Running the tests
+"-numberstring"
+
+"- numberstring"
+
+Some concrete examples:
+"250000"
+
+"-323985"
+
+"- 128324"
+
+#### Running the tests
 
 To run the tests execute
 
