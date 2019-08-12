@@ -46,6 +46,10 @@ Some concrete examples:
 
 "- 128324"
 
+Another option could be using this from the command line using curl, as in the following example:
+
+`curl http://localhost:4567/numbertoword/1233`
+
 #### Running the tests
 
 To run the tests execute
