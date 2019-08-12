@@ -222,4 +222,16 @@ public class NumberConverterTest {
         assertEquals("Negative one billion one", numberConverter.getNumberAsWords("-1000000001"));
         assertEquals("Negative two billion one hundred forty seven million four hundred eighty three thousand six hundred and forty eight", numberConverter.getNumberAsWords("-2147483648"));
     }
+
+    @Test
+    @DisplayName("Test some overall weird numbers")
+    void convertWeirdNumbers() throws InvalidNumberException, NumberOutOfRangeException {
+        NumberConverter numberConverter = new NumberConverterImpl(new NumberStringValidatorImpl());
+        assertEquals("One billion one", numberConverter.getNumberAsWords("1000000001"));
+        assertEquals("One billion two thousand one", numberConverter.getNumberAsWords("1000002001"));
+        assertEquals("Three", numberConverter.getNumberAsWords("0000003"));
+        assertEquals("Sixteen thousand nine hundred and four", numberConverter.getNumberAsWords("16904"));
+        assertEquals("Forty eight thousand nine hundred and two", numberConverter.getNumberAsWords("48902"));
+        assertEquals("One hundred twenty six million six hundred eighty eight thousand nine hundred and five", numberConverter.getNumberAsWords("126688905"));
+    }
 }
