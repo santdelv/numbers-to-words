@@ -124,8 +124,7 @@ public class NumberConverterImpl implements NumberConverter {
                 numberSegmentsWords.append(" ");
             }
         }
-        String nonBasicNumberString = numberSegmentsWords.toString().trim();
-        return nonBasicNumberString;
+        return numberSegmentsWords.toString().trim();
     }
 
     /**
@@ -174,7 +173,7 @@ public class NumberConverterImpl implements NumberConverter {
         String tensPartOfNumber = "";
         String basicNumberPart = "";
         int remainder;
-        int biggestTenMultiple = (int)Math.floor(numberValue/10) * 10;
+        int biggestTenMultiple = numberValue - numberValue%10;
         if (biggestTenMultiple > 0 && biggestTenMultiple >= TWENTY_INT) {
             tensPartOfNumber = numberBuildingBlocks.get(biggestTenMultiple);
             remainder = numberValue - biggestTenMultiple;
