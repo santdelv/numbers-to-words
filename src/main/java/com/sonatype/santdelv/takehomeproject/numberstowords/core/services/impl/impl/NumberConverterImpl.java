@@ -74,7 +74,7 @@ public class NumberConverterImpl implements NumberConverter {
     private final static String[] MAGNITUDES = {"hundred", "thousand", "million", "billion"};
 
     /**
-     * Converts a number given by an it to its equivalent in english words.
+     * Converts a given number to its equivalent in english words.
      * @param number The number we want to convert.
      * @return The given number expressed in english words.
      */
@@ -129,7 +129,7 @@ public class NumberConverterImpl implements NumberConverter {
     }
 
     /**
-     * Checks if a number is negative or not determined byt its use of a minus sign.
+     * Checks if a number is negative or not determined by its use of a minus sign.
      * @param number String representation of a number
      * @return true if the number string starts with the minus sign
      */
@@ -165,7 +165,7 @@ public class NumberConverterImpl implements NumberConverter {
     }
 
     /**
-     * Converts a number lower than one hundred to engliush words.
+     * Converts a number lower than one hundred to english words.
      * @param numberValue A number less than 99.
      * @return The number representation in english wortds.
      */
