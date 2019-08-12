@@ -1,4 +1,4 @@
-package com.sonatype.santdelv.takehomeproject.numberstowords;
+package com.sonatype.santdelv.takehomeproject.numberstowords.core.services;
 
 import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.InvalidNumberException;
 import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.NumberOutOfRangeException;

@@ -1,15 +1,12 @@
-package com.sonatype.santdelv.takehomeproject.numberstowords;
+package com.sonatype.santdelv.takehomeproject.numberstowords.controllers;
 
 import com.sonatype.santdelv.takehomeproject.numberstowords.controllers.NumberConverterController;
-import com.sonatype.santdelv.takehomeproject.numberstowords.impl.NumberConverterImpl;
+import com.sonatype.santdelv.takehomeproject.numberstowords.core.services.impl.impl.NumberConverterImpl;
 import com.sonatype.santdelv.takehomeproject.numberstowords.validators.impl.NumberStringValidatorImpl;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.eclipse.jetty.client.HttpResponse;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -45,8 +42,8 @@ public class NumberConverterControllerTest {
         CloseableHttpResponse response = getResponseFromNumberServer("1234");
         int statusCode = response.getStatusLine().getStatusCode();
         String serverResponseBody = getServerResponseBody(response);
-        assertEquals(200, statusCode);
-        assertEquals("One thousand two hundred and thirty four", serverResponseBody);
+        Assertions.assertEquals(200, statusCode);
+        Assertions.assertEquals("One thousand two hundred and thirty four", serverResponseBody);
     }
 
     @Test
@@ -54,8 +51,8 @@ public class NumberConverterControllerTest {
         CloseableHttpResponse response = getResponseFromNumberServer("asdf");
         int statusCode = response.getStatusLine().getStatusCode();
         String serverResponseBody = getServerResponseBody(response);
-        assertEquals(422, statusCode);
-        assertEquals("number should be an int with an optional '-' at the beginning", serverResponseBody);
+        Assertions.assertEquals(422, statusCode);
+        Assertions.assertEquals("number should be an int with an optional '-' at the beginning", serverResponseBody);
     }
 
     @Test
@@ -63,8 +60,8 @@ public class NumberConverterControllerTest {
         CloseableHttpResponse response = getResponseFromNumberServer("2147483648");
         int statusCode = response.getStatusLine().getStatusCode();
         String serverResponseBody = getServerResponseBody(response);
-        assertEquals(422, statusCode);
-        assertEquals("number outside of the supported range", serverResponseBody);
+        Assertions.assertEquals(422, statusCode);
+        Assertions.assertEquals("number outside of the supported range", serverResponseBody);
     }
 
     private static CloseableHttpResponse getResponseFromNumberServer(String number) throws IOException {

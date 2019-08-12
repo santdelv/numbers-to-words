@@ -1,5 +1,5 @@
 package com.sonatype.santdelv.takehomeproject.numberstowords.controllers;
-import com.sonatype.santdelv.takehomeproject.numberstowords.NumberConverter;
+import com.sonatype.santdelv.takehomeproject.numberstowords.core.services.NumberConverter;
 import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.InvalidNumberException;
 import com.sonatype.santdelv.takehomeproject.numberstowords.exceptions.NumberOutOfRangeException;
 

@@ -1,7 +1,7 @@
 package com.sonatype.santdelv.takehomeproject.numberstowords;
 
 import com.sonatype.santdelv.takehomeproject.numberstowords.controllers.NumberConverterController;
-import com.sonatype.santdelv.takehomeproject.numberstowords.impl.NumberConverterImpl;
+import com.sonatype.santdelv.takehomeproject.numberstowords.core.services.impl.impl.NumberConverterImpl;
 import com.sonatype.santdelv.takehomeproject.numberstowords.validators.impl.NumberStringValidatorImpl;
 
 /**
