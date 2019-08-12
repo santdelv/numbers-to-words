@@ -26,8 +26,7 @@ public class NumberConverterControllerTest {
 
     @BeforeAll
     private static void setUp() throws Exception {
-        NumberConverterController numberConverterController =
-                new NumberConverterController(new NumberConverterImpl(new NumberStringValidatorImpl()));
+        NumberConverterController numberConverterController = new NumberConverterController(new NumberConverterImpl(new NumberStringValidatorImpl()));
         awaitInitialization();
     }
 
@@ -42,8 +41,8 @@ public class NumberConverterControllerTest {
         CloseableHttpResponse response = getResponseFromNumberServer("1234");
         int statusCode = response.getStatusLine().getStatusCode();
         String serverResponseBody = getServerResponseBody(response);
-        Assertions.assertEquals(200, statusCode);
-        Assertions.assertEquals("One thousand two hundred and thirty four", serverResponseBody);
+        assertEquals(200, statusCode);
+        assertEquals("One thousand two hundred and thirty four", serverResponseBody);
     }
 
     @Test
@@ -51,8 +50,8 @@ public class NumberConverterControllerTest {
         CloseableHttpResponse response = getResponseFromNumberServer("asdf");
         int statusCode = response.getStatusLine().getStatusCode();
         String serverResponseBody = getServerResponseBody(response);
-        Assertions.assertEquals(422, statusCode);
-        Assertions.assertEquals("number should be an int with an optional '-' at the beginning", serverResponseBody);
+        assertEquals(422, statusCode);
+        assertEquals("number should be an int with an optional '-' at the beginning", serverResponseBody);
     }
 
     @Test
@@ -60,8 +59,8 @@ public class NumberConverterControllerTest {
         CloseableHttpResponse response = getResponseFromNumberServer("2147483648");
         int statusCode = response.getStatusLine().getStatusCode();
         String serverResponseBody = getServerResponseBody(response);
-        Assertions.assertEquals(422, statusCode);
-        Assertions.assertEquals("number outside of the supported range", serverResponseBody);
+        assertEquals(422, statusCode);
+        assertEquals("number outside of the supported range", serverResponseBody);
     }
 
     private static CloseableHttpResponse getResponseFromNumberServer(String number) throws IOException {
