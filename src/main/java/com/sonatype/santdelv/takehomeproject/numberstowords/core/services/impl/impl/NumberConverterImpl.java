@@ -16,11 +16,11 @@ public class NumberConverterImpl implements NumberConverter {
     // Prefix used for negative numbers
     private static final String NEGATIVE_PREFIX = "Negative";
     // Prefix to indicate negative numbers
-    public static final String MINUS_SIGN = "-";
-    public static final String HUNDRED = "hundred";
-    public static final String AND_CONNECTOR = " and ";
-    public static final int A_HUNDRED_INT = 100;
-    public static final int TWENTY_INT = 20;
+    private static final String MINUS_SIGN = "-";
+    private static final String HUNDRED = "hundred";
+    private static final String AND_CONNECTOR = " and ";
+    private static final int A_HUNDRED_INT = 100;
+    private static final int TWENTY_INT = 20;
 
     // Validator used to check if the given numbers as Strings are valid and can be converted.
     private final NumberStringValidator numberStringValidator;

@@ -20,8 +20,9 @@ public class NumberConverterController {
         get("/numbertoword/:number", (req, res) -> {
             String number = req.params("number");
             try {
+                String response = numberConverterService.getNumberAsWords(number);
                 res.status(200);
-                return numberConverterService.getNumberAsWords(number);
+                return response;
             }
             catch (InvalidNumberException e) {
                 res.status(422);
